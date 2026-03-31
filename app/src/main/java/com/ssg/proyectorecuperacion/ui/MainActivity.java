@@ -33,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         listBooks = new ArrayList<>();
 
-        // Datos de prueba
-        listBooks.add(new Book("Harry Potter", "J.K. Rowling", "1997", "Fantasía", "Leído"));
-        listBooks.add(new Book("El Hobbit", "Tolkien", "1937", "Fantasía", "Pendiente"));
-        listBooks.add(new Book("1984", "George Orwell", "1949", "Distopía", "Leído"));
-
         adapter = new BookAdapter(listBooks, this);
         recyclerView.setAdapter(adapter);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

@@ -1,6 +1,7 @@
 package com.ssg.proyectorecuperacion.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ssg.proyectorecuperacion.R;
 import com.ssg.proyectorecuperacion.model.Book;
+import com.ssg.proyectorecuperacion.ui.DetailActivity;
 
 import java.util.List;
 
@@ -55,6 +57,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         holder.year.setText(book.getYear());
         holder.category.setText(book.getCategory());
         holder.status.setText(book.getStatus());
+
+        holder.itemView.setOnClickListener(v ->{
+           Intent intent = new Intent(context, DetailActivity.class);
+           intent.putExtra("title", book.getTitle());
+           intent.putExtra("author", book.getAuthor());
+           intent.putExtra("year", book.getAuthor());
+           intent.putExtra("category", book.getCategory());
+           intent.putExtra("status", book.getStatus());
+           context.startActivity(intent);
+        });
     }
 
     @Override

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imgBookDetail"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/txtTitleDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:text="Title"/>
+
+    <TextView
+        android:id="@+id/txtAuthorDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Authot"/>
+
+    <TextView
+        android:id="@+id/txtYearDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Year"/>
+
+    <TextView
+        android:id="@+id/txtCategoryDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"/>
+
+    <TextView
+        android:id="@+id/txtStatusDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"/>
+
+</LinearLayout>

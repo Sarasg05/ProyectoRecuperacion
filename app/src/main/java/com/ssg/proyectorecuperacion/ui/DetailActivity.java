@@ -3,6 +3,8 @@ package com.ssg.proyectorecuperacion.ui;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ public class DetailActivity extends AppCompatActivity {
 
     TextView title, author, year, category, status;
     ImageView image;
+    Button btnFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,11 @@ public class DetailActivity extends AppCompatActivity {
         category = findViewById(R.id.txtCategoryDetail);
         status = findViewById(R.id.txtStatusDetail);
         image = findViewById(R.id.imgBookDetail);
+        btnFavorite = findViewById(R.id.btnFavorite);
+
+        btnFavorite.setOnClickListener(v -> {
+            Toast.makeText(DetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+        });
 
         // Recibir datos
         String t = getIntent().getStringExtra("title");

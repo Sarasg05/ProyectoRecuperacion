@@ -1,5 +1,6 @@
 package com.ssg.proyectorecuperacion.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -41,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
 
         listBooks = new ArrayList<>();
         adapter = new BookAdapter(listBooks, this);
+
+        adapter.setOnItemClickListener(book -> {
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra("title", book.getTitle());
+            intent.putExtra("author", book.getAuthor());
+            intent.putExtra("year", book.getYear());
+            intent.putExtra("category", book.getCategory());
+            intent.putExtra("status", book.getStatus());
+            startActivity(intent);
+        });
+
         recyclerView.setAdapter(adapter);
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);

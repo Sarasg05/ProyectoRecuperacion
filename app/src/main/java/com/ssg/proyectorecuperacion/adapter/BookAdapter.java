@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ssg.proyectorecuperacion.R;
 import com.ssg.proyectorecuperacion.model.Book;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
@@ -75,6 +77,14 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         holder.year.setText(book.getYear());
         holder.category.setText(book.getCategory());
         holder.status.setText(book.getStatus());
+
+        if (book.getCoverUrl() != null){
+            Glide.with(context)
+                    .load(book.getCoverUrl())
+                    .into(holder.image);
+        } else {
+            holder.image.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
     @Override

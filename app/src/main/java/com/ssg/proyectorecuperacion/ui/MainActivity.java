@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("year", book.getYear());
             intent.putExtra("category", book.getCategory());
             intent.putExtra("status", book.getStatus());
+            intent.putExtra("cover", book.getCoverUrl());
             startActivity(intent);
         });
 

@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.ssg.proyectorecuperacion.R;
 
 public class DetailActivity extends AppCompatActivity {
@@ -44,6 +45,11 @@ public class DetailActivity extends AppCompatActivity {
         String y = getIntent().getStringExtra("year");
         String c = getIntent().getStringExtra("category");
         String s = getIntent().getStringExtra("status");
+
+        String cover = getIntent().getStringExtra("cover");
+        if (cover != null){
+            Glide.with(this).load(cover).into(image);
+        }
 
         // Mostrar datos
         title.setText(t);

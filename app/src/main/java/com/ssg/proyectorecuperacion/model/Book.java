@@ -6,6 +6,8 @@ public class Book {
     private String title;
     private List<String> author_name;
     private int first_publish_year;
+
+    private int cover_i;
     
     public String getTitle(){ return title; }
     public String getAuthor(){
@@ -22,5 +24,12 @@ public class Book {
     }
     public String getStatus(){
         return "Pendiente"; // valor fijo
+    }
+
+    public String getCoverUrl(){
+        if (cover_i != 0){
+            return "https://covers.openlibrary.org/b/id/" + cover_i + "-L.jpg";
+        }
+        return null;
     }
 }

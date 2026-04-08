@@ -32,4 +32,8 @@ public class Book {
         }
         return null;
     }
+
+    public String getId(){
+        return getTitle() + "-" + getAuthor();
+    }
 }

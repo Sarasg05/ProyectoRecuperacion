@@ -14,12 +14,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.ssg.proyectorecuperacion.R;
+import com.ssg.proyectorecuperacion.model.FavoritesManager;
 
 public class DetailActivity extends AppCompatActivity {
 
     TextView title, author, year, category, status;
     ImageView image;
     Button btnFavorite;
+
+    FavoritesManager favoritesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +38,7 @@ public class DetailActivity extends AppCompatActivity {
         image = findViewById(R.id.imgBookDetail);
         btnFavorite = findViewById(R.id.btnFavorite);
 
-        btnFavorite.setOnClickListener(v -> {
-            Toast.makeText(DetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
-        });
+        favoritesManager = new FavoritesManager(this);
 
         // Recibir datos
         String t = getIntent().getStringExtra("title");
@@ -58,5 +59,28 @@ public class DetailActivity extends AppCompatActivity {
         category.setText(c);
         status.setText(s);
 
+        String bookId = t + "-" + a;
+
+        updateFavoriteButton(bookId);
+
+        btnFavorite.setOnClickListener(v -> {
+            if(favoritesManager.isFavorite(bookId)){
+                favoritesManager.removeFavorite(bookId);
+                Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+            }else{
+                favoritesManager.addFavorite(bookId);
+                Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+            }
+            updateFavoriteButton(bookId);
+        });
+
+    }
+
+    private void updateFavoriteButton(String bookId){
+        if(favoritesManager.isFavorite(bookId)){
+            btnFavorite.setText("Remove from favorites");
+        }else{
+            btnFavorite.setText("Add to favorites");
+        }
     }
 }

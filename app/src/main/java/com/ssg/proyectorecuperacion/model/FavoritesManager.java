@@ -18,13 +18,13 @@ public class FavoritesManager {
     }
 
     public void addFavorite(String bookId){
-        Set<String> favorites = prefs.getStringSet(KEY_FAVORITES, new HashSet<>());
+        Set<String> favorites = new HashSet<>(prefs.getStringSet(KEY_FAVORITES, new HashSet<>()));
         favorites.add(bookId);
         prefs.edit().putStringSet(KEY_FAVORITES, favorites).apply();
     }
 
     public void removeFavorite(String bookId){
-        Set<String> favorites = prefs.getStringSet(KEY_FAVORITES, new HashSet<>());
+        Set<String> favorites = new HashSet<>(prefs.getStringSet(KEY_FAVORITES, new HashSet<>()));
         favorites.remove(bookId);
         prefs.edit().putStringSet(KEY_FAVORITES, favorites).apply();
     }

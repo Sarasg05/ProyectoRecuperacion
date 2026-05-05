@@ -14,7 +14,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.ssg.proyectorecuperacion.R;
+import com.ssg.proyectorecuperacion.model.BookDetail;
 import com.ssg.proyectorecuperacion.model.FavoritesManager;
+import com.ssg.proyectorecuperacion.network.ApiService;
+import com.ssg.proyectorecuperacion.network.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -40,40 +47,58 @@ public class DetailActivity extends AppCompatActivity {
 
         favoritesManager = new FavoritesManager(this);
 
-        // Recibir datos
-        String t = getIntent().getStringExtra("title");
-        String a = getIntent().getStringExtra("author");
-        String y = getIntent().getStringExtra("year");
-        String c = getIntent().getStringExtra("category");
-        String s = getIntent().getStringExtra("status");
+        String bookKey = getIntent().getStringExtra("bookKey");
 
         String cover = getIntent().getStringExtra("cover");
+
         if (cover != null){
             Glide.with(this).load(cover).into(image);
         }
 
-        // Mostrar datos
-        title.setText(t);
-        author.setText(a);
-        year.setText(y);
-        category.setText(c);
-        status.setText(s);
+        if (bookKey != null) {
 
-        String bookId = t + "-" + a;
+            String cleanId = bookKey.replace("/works/", "");
 
-        updateFavoriteButton(bookId);
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            Call<BookDetail> call = apiService.getBookDetail(cleanId);
 
-        btnFavorite.setOnClickListener(v -> {
-            if(favoritesManager.isFavorite(bookId)){
-                favoritesManager.removeFavorite(bookId);
-                Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
-            }else{
-                favoritesManager.addFavorite(bookId);
-                Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
-            }
+            call.enqueue(new Callback<BookDetail>() {
+                @Override
+                public void onResponse(Call<BookDetail> call, Response<BookDetail> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+
+                        BookDetail book = response.body();
+
+                        title.setText(book.getTitle());
+
+                        author.setText("Autor desconocido");
+                        year.setText("-");
+                        category.setText("-");
+                        status.setText("-");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BookDetail> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+
+            String bookId = cleanId;
+
             updateFavoriteButton(bookId);
-        });
 
+            btnFavorite.setOnClickListener(v -> {
+                if(favoritesManager.isFavorite(bookId)){
+                    favoritesManager.removeFavorite(bookId);
+                    Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                }else{
+                    favoritesManager.addFavorite(bookId);
+                    Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                }
+                updateFavoriteButton(bookId);
+            });
+        }
     }
 
     private void updateFavoriteButton(String bookId){

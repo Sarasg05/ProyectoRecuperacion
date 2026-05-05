@@ -8,6 +8,8 @@ public class Book {
     private int first_publish_year;
 
     private int cover_i;
+
+    private String key;
     
     public String getTitle(){ return title; }
     public String getAuthor(){
@@ -35,5 +37,9 @@ public class Book {
 
     public String getId(){
         return getTitle() + "-" + getAuthor();
+    }
+
+    public String getKey(){
+        return key;
     }
 }

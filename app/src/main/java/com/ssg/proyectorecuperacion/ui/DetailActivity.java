@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
-    TextView title, author, year, category, status;
+    TextView title, author, year, category, status, description;
     ImageView image;
     Button btnFavorite;
 
@@ -42,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         year = findViewById(R.id.txtYearDetail);
         category = findViewById(R.id.txtCategoryDetail);
         status = findViewById(R.id.txtStatusDetail);
+        description = findViewById(R.id.txtDescriptionDetail);
         image = findViewById(R.id.imgBookDetail);
         btnFavorite = findViewById(R.id.btnFavorite);
 
@@ -70,9 +71,10 @@ public class DetailActivity extends AppCompatActivity {
                         BookDetail book = response.body();
 
                         title.setText(book.getTitle());
+                        description.setText(book.getDescription());
+                        year.setText(book.getYear());
 
                         author.setText("Autor desconocido");
-                        year.setText("-");
                         category.setText("-");
                         status.setText("-");
                     }

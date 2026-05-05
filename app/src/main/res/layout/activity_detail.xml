@@ -46,6 +46,13 @@
         android:layout_height="wrap_content"
         android:text="Status"/>
 
+    <TextView
+        android:id="@+id/txtDescriptionDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"/>
+
+
     <Button
         android:id="@+id/btnFavorite"
         android:layout_width="wrap_content"

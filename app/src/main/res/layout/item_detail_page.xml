@@ -26,7 +26,9 @@
         <TextView
             android:id="@+id/txtAuthorDetail"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="#0000EE"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/txtCategoryDetail"

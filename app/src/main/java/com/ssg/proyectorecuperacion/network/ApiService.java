@@ -13,4 +13,7 @@ public interface ApiService {
     Call<BookResponse> searchBooks(@Query("q") String query);
     @GET("works/{id}.json")
     Call<BookDetail> getBookDetail(@Path("id") String id);
+
+    @GET("search.json")
+    Call<BookResponse> getBooksByAuthor(@Query("author") String author);
 }

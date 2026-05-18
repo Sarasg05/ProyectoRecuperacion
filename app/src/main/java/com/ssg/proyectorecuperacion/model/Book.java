@@ -11,6 +11,8 @@ public class Book implements Serializable {
     private int cover_i;
 
     private String key;
+
+    private List<String> author_key;
     
     public String getTitle(){ return title; }
     public String getAuthor(){
@@ -39,5 +41,14 @@ public class Book implements Serializable {
     public String getWorkId(){
 
         return key.replace("/works/","");
+    }
+
+    public String getAuthorKey(){
+
+        if(author_key != null && !author_key.isEmpty()){
+            return author_key.get(0);
+        }
+
+        return "";
     }
 }

@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
 
         favoritesManager = new FavoritesManager(this);
 
-        String bookKey = getIntent().getStringExtra("bookKey");
+        String workId = getIntent().getStringExtra("workId");
 
         String cover = getIntent().getStringExtra("cover");
 
@@ -56,12 +56,10 @@ public class DetailActivity extends AppCompatActivity {
             Glide.with(this).load(cover).into(image);
         }
 
-        if (bookKey != null) {
-
-            String cleanId = bookKey.replace("/works/", "");
+        if (workId != null) {
 
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            Call<BookDetail> call = apiService.getBookDetail(cleanId);
+            Call<BookDetail> call = apiService.getBookDetail(workId);
 
             call.enqueue(new Callback<BookDetail>() {
                 @Override
@@ -86,25 +84,23 @@ public class DetailActivity extends AppCompatActivity {
                 }
             });
 
-            String bookId = cleanId;
-
-            updateFavoriteButton(bookId);
+            updateFavoriteButton(workId);
 
             btnFavorite.setOnClickListener(v -> {
-                if(favoritesManager.isFavorite(bookId)){
-                    favoritesManager.removeFavorite(bookId);
+                if(favoritesManager.isFavorite(workId)){
+                    favoritesManager.removeFavorite(workId);
                     Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
                 }else{
-                    favoritesManager.addFavorite(bookId);
+                    favoritesManager.addFavorite(workId);
                     Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
                 }
-                updateFavoriteButton(bookId);
+                updateFavoriteButton(workId);
             });
         }
     }
 
-    private void updateFavoriteButton(String bookId){
-        if(favoritesManager.isFavorite(bookId)){
+    private void updateFavoriteButton(String workId){
+        if(favoritesManager.isFavorite(workId)){
             btnFavorite.setText("Remove from favorites");
         }else{
             btnFavorite.setText("Add to favorites");

@@ -37,6 +37,6 @@ public class Book {
 
     public String getWorkId(){
 
-        return key.replace("/work/","");
+        return key.replace("/works/","");
     }
 }

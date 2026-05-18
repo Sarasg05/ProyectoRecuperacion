@@ -1,6 +1,7 @@
 package com.ssg.proyectorecuperacion.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.ssg.proyectorecuperacion.model.Book;
 import com.ssg.proyectorecuperacion.model.BookDetail;
 import com.ssg.proyectorecuperacion.network.ApiService;
 import com.ssg.proyectorecuperacion.network.RetrofitClient;
+import com.ssg.proyectorecuperacion.ui.AuthorActivity;
 
 import java.util.List;
 
@@ -85,6 +87,15 @@ public class DetailPagerAdapter extends RecyclerView.Adapter<DetailPagerAdapter.
 
                     holder.title.setText(detail.getTitle());
                     holder.author.setText(book.getAuthor());
+                    holder.author.setOnClickListener(v -> {
+
+                        Intent intent =
+                                new Intent(context, AuthorActivity.class);
+
+                        intent.putExtra("author", book.getAuthor());
+
+                        context.startActivity(intent);
+                    });
                     holder.category.setText(book.getCategory());
                     holder.status.setText(book.getStatus());
                     holder.year.setText(detail.getYear());

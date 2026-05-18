@@ -23,10 +23,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-
 public class AuthorPagerAdapter extends RecyclerView.Adapter<AuthorPagerAdapter.ViewHolder> {
 
     private List<Book> books;
@@ -60,7 +56,7 @@ public class AuthorPagerAdapter extends RecyclerView.Adapter<AuthorPagerAdapter.
     public AuthorPagerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.activity_detail, parent, false);
+                .inflate(R.layout.item_detail_page, parent, false);
 
         return new AuthorPagerAdapter.ViewHolder(view);
     }

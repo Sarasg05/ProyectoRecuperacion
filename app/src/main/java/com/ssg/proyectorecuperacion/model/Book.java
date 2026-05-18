@@ -1,8 +1,9 @@
 package com.ssg.proyectorecuperacion.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Book {
+public class Book implements Serializable {
     private String title;
     private List<String> author_name;
     private int first_publish_year;

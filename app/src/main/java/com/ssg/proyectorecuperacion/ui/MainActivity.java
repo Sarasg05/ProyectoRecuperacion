@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(book -> {
             Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra("bookKey", book.getKey());
+            intent.putExtra("workId", book.getWorkId());
             intent.putExtra("cover", book.getCoverUrl());
             startActivity(intent);
         });

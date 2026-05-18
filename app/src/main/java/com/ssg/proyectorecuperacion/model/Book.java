@@ -35,7 +35,7 @@ public class Book {
         return null;
     }
 
-    public String getKey(){
+    public String getWorkId(){
 
         return key.replace("/work/","");
     }

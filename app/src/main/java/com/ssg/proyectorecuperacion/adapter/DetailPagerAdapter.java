@@ -35,13 +35,16 @@ public class DetailPagerAdapter extends RecyclerView.Adapter<DetailPagerAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, year, description;
+        TextView title, author, category, status, year, description;
         ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.txtTitleDetail);
+            author = itemView.findViewById(R.id.txtAuthorDetail);
+            category = itemView.findViewById(R.id.txtCategoryDetail);
+            status = itemView.findViewById(R.id.txtStatusDetail);
             year = itemView.findViewById(R.id.txtYearDetail);
             description = itemView.findViewById(R.id.txtDescriptionDetail);
             image = itemView.findViewById(R.id.imgBookDetail);
@@ -81,6 +84,9 @@ public class DetailPagerAdapter extends RecyclerView.Adapter<DetailPagerAdapter.
                     BookDetail detail = response.body();
 
                     holder.title.setText(detail.getTitle());
+                    holder.author.setText(book.getAuthor());
+                    holder.category.setText(book.getCategory());
+                    holder.status.setText(book.getStatus());
                     holder.year.setText(detail.getYear());
                     holder.description.setText(detail.getDescription());
                 }

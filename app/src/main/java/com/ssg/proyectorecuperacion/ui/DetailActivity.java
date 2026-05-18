@@ -1,35 +1,20 @@
 package com.ssg.proyectorecuperacion.ui;
 
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.ssg.proyectorecuperacion.R;
-import com.ssg.proyectorecuperacion.model.BookDetail;
-import com.ssg.proyectorecuperacion.model.FavoritesManager;
-import com.ssg.proyectorecuperacion.network.ApiService;
-import com.ssg.proyectorecuperacion.network.RetrofitClient;
+import com.ssg.proyectorecuperacion.adapter.DetailPagerAdapter;
+import com.ssg.proyectorecuperacion.model.Book;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
-    TextView title, author, year, category, status, description;
-    ImageView image;
-    Button btnFavorite;
-
-    FavoritesManager favoritesManager;
+    ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,73 +22,19 @@ public class DetailActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detail);
 
-        title = findViewById(R.id.txtTitleDetail);
-        author = findViewById(R.id.txtAuthorDetail);
-        year = findViewById(R.id.txtYearDetail);
-        category = findViewById(R.id.txtCategoryDetail);
-        status = findViewById(R.id.txtStatusDetail);
-        description = findViewById(R.id.txtDescriptionDetail);
-        image = findViewById(R.id.imgBookDetail);
-        btnFavorite = findViewById(R.id.btnFavorite);
+        viewPager = findViewById(R.id.viewPager);
 
-        favoritesManager = new FavoritesManager(this);
+        ArrayList<Book> books =
+                (ArrayList<Book>) getIntent().getSerializableExtra("books");
 
-        String workId = getIntent().getStringExtra("workId");
+        int position =
+                getIntent().getIntExtra("position", 0);
 
-        String cover = getIntent().getStringExtra("cover");
+        DetailPagerAdapter adapter =
+                new DetailPagerAdapter(books, this);
 
-        if (cover != null){
-            Glide.with(this).load(cover).into(image);
-        }
+        viewPager.setAdapter(adapter);
 
-        if (workId != null) {
-
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            Call<BookDetail> call = apiService.getBookDetail(workId);
-
-            call.enqueue(new Callback<BookDetail>() {
-                @Override
-                public void onResponse(Call<BookDetail> call, Response<BookDetail> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-
-                        BookDetail book = response.body();
-
-                        title.setText(book.getTitle());
-                        description.setText(book.getDescription());
-                        year.setText(book.getYear());
-
-                        author.setText("Autor desconocido");
-                        category.setText("-");
-                        status.setText("-");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<BookDetail> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-
-            updateFavoriteButton(workId);
-
-            btnFavorite.setOnClickListener(v -> {
-                if(favoritesManager.isFavorite(workId)){
-                    favoritesManager.removeFavorite(workId);
-                    Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
-                }else{
-                    favoritesManager.addFavorite(workId);
-                    Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
-                }
-                updateFavoriteButton(workId);
-            });
-        }
-    }
-
-    private void updateFavoriteButton(String workId){
-        if(favoritesManager.isFavorite(workId)){
-            btnFavorite.setText("Remove from favorites");
-        }else{
-            btnFavorite.setText("Add to favorites");
-        }
+        viewPager.setCurrentItem(position, false);
     }
 }

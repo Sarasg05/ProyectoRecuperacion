@@ -1,0 +1,112 @@
+package com.ssg.proyectorecuperacion.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.ssg.proyectorecuperacion.R;
+import com.ssg.proyectorecuperacion.model.Book;
+import com.ssg.proyectorecuperacion.model.BookDetail;
+import com.ssg.proyectorecuperacion.network.ApiService;
+import com.ssg.proyectorecuperacion.network.RetrofitClient;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+
+public class AuthorPagerAdapter extends RecyclerView.Adapter<AuthorPagerAdapter.ViewHolder> {
+
+    private List<Book> books;
+    private Context context;
+
+    public AuthorPagerAdapter(List<Book> books, Context context) {
+        this.books = books;
+        this.context = context;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView title, author, category, status, year, description;
+        ImageView image;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            title = itemView.findViewById(R.id.txtTitleDetail);
+            author = itemView.findViewById(R.id.txtAuthorDetail);
+            category = itemView.findViewById(R.id.txtCategoryDetail);
+            status = itemView.findViewById(R.id.txtStatusDetail);
+            year = itemView.findViewById(R.id.txtYearDetail);
+            description = itemView.findViewById(R.id.txtDescriptionDetail);
+            image = itemView.findViewById(R.id.imgBookDetail);
+        }
+    }
+
+    @NonNull
+    @Override
+    public AuthorPagerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.activity_detail, parent, false);
+
+        return new AuthorPagerAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AuthorPagerAdapter.ViewHolder holder, int position) {
+
+        Book book = books.get(position);
+
+        if (book.getCoverUrl() != null) {
+            Glide.with(context)
+                    .load(book.getCoverUrl())
+                    .into(holder.image);
+        }
+
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+
+        Call<BookDetail> call =
+                apiService.getBookDetail(book.getWorkId());
+
+        call.enqueue(new Callback<BookDetail>() {
+            @Override
+            public void onResponse(Call<BookDetail> call, Response<BookDetail> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    BookDetail detail = response.body();
+
+                    holder.title.setText(detail.getTitle());
+                    holder.author.setText(book.getAuthor());
+                    holder.category.setText(book.getCategory());
+                    holder.status.setText(book.getStatus());
+                    holder.year.setText(detail.getYear());
+                    holder.description.setText(detail.getDescription());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookDetail> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return books.size();
+    }
+}
